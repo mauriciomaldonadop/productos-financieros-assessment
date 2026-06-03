@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="form-card">
+    <h2 class="form-title">Formulario de Registro</h2>
+    <hr class="divider" />
+
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>ID</label>
+          <input type="text" formControlName="id" [class.input-error]="productForm.get('id')?.invalid && productForm.get('id')?.touched" />
+          <div class="error-msg" *ngIf="hasError('id', 'required')">Este campo es requerido!</div>
+          <div class="error-msg" *ngIf="hasError('id', 'minlength') || hasError('id', 'maxlength')">ID no válido! (3-10 caracteres)</div>
+          <div class="error-msg" *ngIf="hasError('id', 'idExists')">ID no válido! Ya existe.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" formControlName="name" [class.input-error]="productForm.get('name')?.invalid && productForm.get('name')?.touched" />
+          <div class="error-msg" *ngIf="hasError('name', 'required')">Este campo es requerido!</div>
+          <div class="error-msg" *ngIf="hasError('name', 'minlength') || hasError('name', 'maxlength')">Nombre no válido! (5-100 caracteres)</div>
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <input type="text" formControlName="description" [class.input-error]="productForm.get('description')?.invalid && productForm.get('description')?.touched" />
+          <div class="error-msg" *ngIf="hasError('description', 'required')">Este campo es requerido!</div>
+          <div class="error-msg" *ngIf="hasError('description', 'minlength') || hasError('description', 'maxlength')">Descripción no válida! (10-200 caracteres)</div>
+        </div>
+
+        <div class="form-group">
+          <label>Logo</label>
+          <input type="text" formControlName="logo" [class.input-error]="productForm.get('logo')?.invalid && productForm.get('logo')?.touched" />
+          <div class="error-msg" *ngIf="hasError('logo', 'required')">Este campo es requerido!</div>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha Liberación</label>
+          <input type="date" formControlName="date_release" [class.input-error]="productForm.get('date_release')?.invalid && productForm.get('date_release')?.touched" />
+          <div class="error-msg" *ngIf="hasError('date_release', 'required')">Este campo es requerido!</div>
+          <div class="error-msg" *ngIf="hasError('date_release', 'minDate')">La fecha debe ser igual o mayor a hoy!</div>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha Revisión</label>
+          <input type="date" formControlName="date_revision" />
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="onReset()">Reiniciar</button>
+        <button type="submit" class="btn-primary" [disabled]="productForm.invalid || productForm.pending">Enviar</button>
+      </div>
+    </form>
+  </div>
+</div>

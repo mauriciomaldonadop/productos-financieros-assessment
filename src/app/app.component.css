@@ -1,0 +1,21 @@
+.app-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  padding: 20px 0;
+  width: 100%;
+  margin-bottom: 40px;
+}
+.bank-icon {
+  width: 28px;
+  height: 28px;
+  color: #1a202c;
+}
+.bank-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #1a202c;
+  letter-spacing: 0.5px;
+}
