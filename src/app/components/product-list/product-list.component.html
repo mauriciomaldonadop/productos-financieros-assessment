@@ -1,15 +1,7 @@
-<header class="app-header">
-  <svg class="bank-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
-    <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-    <circle cx="12" cy="12" r="2"></circle>
-  </svg>
-  <span class="bank-title">BANCO</span>
-</header>
-
 <div class="container">
   <div class="header-actions">
     <input type="text" placeholder="Search..." class="search-input" disabled />
-    <button class="btn-primary">Agregar</button>
+    <button class="btn-primary" [routerLink]="['/add']">Agregar</button>
   </div>
 
   <div class="table-card">
