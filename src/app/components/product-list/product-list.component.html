@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="header-actions">
+    <input type="text" placeholder="Search..." class="search-input" disabled />
+    <button class="btn-primary">Agregar</button>
+  </div>
+
+  <div class="table-card">
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nombre del producto</th>
+        <th>Descripción <span class="info-icon">ℹ</span></th>
+        <th>Fecha de liberación <span class="info-icon">ℹ</span></th>
+        <th>Fecha de reestructuración <span class="info-icon">ℹ</span></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (product of products(); track product.id) {
+          <tr>
+            <td>
+              <img [src]="product.logo" alt="Logo" class="product-logo">
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.date_release | date:'dd/MM/yyyy' }}</td>
+            <td>{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
+            <td class="action-cell">
+              <button class="btn-icon">⋮</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty-state">No hay productos financieros registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="table-footer">
+      <span class="results-count">{{ products().length }} Resultados</span>
+      <select class="limit-select" disabled>
+        <option value="5">5</option>
+      </select>
+    </div>
+  </div>
+</div>
