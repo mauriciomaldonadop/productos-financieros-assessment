@@ -8,7 +8,7 @@ import { ApiResponse, FinancialProduct } from '../interfaces/product.interface';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3002/bp/products';
+  private apiUrl = '/bp/products';
 
   getProducts(): Observable<FinancialProduct[]> {
     return this.http.get<ApiResponse<FinancialProduct[]>>(this.apiUrl)
