@@ -18,6 +18,7 @@ export class ProductListComponent {
   searchTerm = signal<string>('');
   itemsPerPage = signal<number>(5);
   currentPage = signal<number>(1);
+  activeDropdown = signal<string | null>(null);
 
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
@@ -71,5 +72,9 @@ export class ProductListComponent {
     if (this.currentPage() < this.totalPages()) {
       this.currentPage.update(p => p + 1);
     }
+  }
+
+  toggleDropdown(id: string): void {
+    this.activeDropdown.update(currentId => currentId === id ? null : id);
   }
 }
