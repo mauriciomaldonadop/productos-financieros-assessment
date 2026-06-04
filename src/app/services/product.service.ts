@@ -14,6 +14,11 @@ export class ProductService {
     return this.http.get<ApiResponse<FinancialProduct[]>>(this.apiUrl)
       .pipe(map(response => response.data || []));
   }
+  getProductById(id: string): Observable<FinancialProduct> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(response => response.data ? response.data : response)
+    );
+  }
   verifyIdExists(id: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/verification/${id}`);
   }

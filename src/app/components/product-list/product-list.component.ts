@@ -1,7 +1,7 @@
 import {Component, computed, inject, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
-import {FinancialProduct} from '../../interfaces/product.interface';
+import { FinancialProduct } from '../../interfaces/product.interface';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
