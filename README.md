@@ -1,27 +1,37 @@
-# ProductosFinancieros
+# Evaluación Técnica Devsu - Productos Financieros
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+Este proyecto es una aplicación web desarrollada en **Angular 18** para la gestión del catálogo de productos financieros. Implementa una arquitectura moderna utilizando Standalone Components, estado reactivo con Signals y Formularios Reactivos con validaciones asíncronas.
 
-## Development server
+## Requisitos Previos (Entorno)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Para garantizar la compatibilidad y el correcto funcionamiento del proyecto, es necesario contar con las siguientes versiones instaladas en el entorno local:
 
-## Code scaffolding
+- **Node.js**: `v20.11.1` (Versión específica requerida para utilizar correctamente Angular 18).
+- **pnpm**: `v9.15.9` (Gestor de paquetes utilizado a lo largo de todo el desarrollo).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Instalación de Herramientas Globales
+Si no cuentas con estas herramientas en las versiones indicadas, puedes instalarlas globalmente ejecutando:
+1. **Instalar pnpm (v9.15.9):**  
+   npm install -g pnpm@9.15.9  
+2. **Instalar Angular CLI (v18):**  
+   npm install -g @angular/cli@18  
+   (Alternativa usando pnpm: pnpm add -g @angular/cli@18)
 
-## Build
+### Instalación de Librerías y Configuración  
+Una vez preparado el entorno, sigue estos pasos para instalar el proyecto:  
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Clonar el repositorio e ingresar a la carpeta:  
 
-## Running unit tests
+git clone <url-del-repositorio>  
+cd productos-financieros-assessment  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Instalar las dependencias:  
+Utiliza el siguiente comando para instalar todas las librerías necesarias de Angular de forma optimizada:  
+pnpm install
 
-## Running end-to-end tests
+### Ejecución del Proyecto  
+Para levantar el servidor de desarrollo del Frontend, ejecuta:  
+pnpm run start  
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+###  Pruebas Unitarias y Reporte de Cobertura (Coverage)  
+pnpm exec ng test --code-coverage --watch=false
