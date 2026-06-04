@@ -2,13 +2,15 @@ import {Component, computed, inject, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { FinancialProduct } from '../../interfaces/product.interface';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ProductSearchComponent } from '../product-search/product-search.component';
+import {ProductPaginationComponent} from '../product-pagination/product-pagination.component';
+import {ProductTableComponent} from '../product-table/product-table.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, FormsModule, ProductSearchComponent, ProductPaginationComponent, ProductTableComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -106,5 +108,9 @@ export class ProductListComponent {
   closeModal(): void {
     this.showModal.set(false);
     this.productToDelete.set(null);
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage.set(page);
   }
 }

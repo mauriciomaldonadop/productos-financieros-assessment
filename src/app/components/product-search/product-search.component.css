@@ -1,0 +1,23 @@
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.search-input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 250px;
+  outline: none;
+  background-color: #ffffff;
+}
+.btn-primary {
+  background-color: #fbd300;
+  color: #333;
+  font-weight: bold;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+}

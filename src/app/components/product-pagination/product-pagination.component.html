@@ -1,0 +1,15 @@
+<div class="table-footer">
+  <span class="results-count">{{ totalResults }} Resultados</span>
+
+  <div class="pagination-controls">
+    <button class="btn-page" (click)="onPrev()" [disabled]="currentPage === 1">Anterior</button>
+    <span class="page-info">Página {{ currentPage }} de {{ totalPages || 1 }}</span>
+    <button class="btn-page" (click)="onNext()" [disabled]="currentPage === totalPages || totalPages === 0">Siguiente</button>
+  </div>
+
+  <select class="limit-select" [ngModel]="itemsPerPage" (ngModelChange)="onLimitChange($event)">
+    <option [value]="5">5</option>
+    <option [value]="10">10</option>
+    <option [value]="20">20</option>
+  </select>
+</div>
