@@ -21,4 +21,8 @@ export class ProductService {
     return this.http.post<ApiResponse<FinancialProduct>>(this.apiUrl, product)
       .pipe(map(response => response.data));
   }
+  updateProduct(id: string, product: FinancialProduct): Observable<FinancialProduct> {
+    return this.http.put<ApiResponse<FinancialProduct>>(`${this.apiUrl}/${id}`, product)
+      .pipe(map(response => response.data));
+  }
 }

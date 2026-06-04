@@ -5,5 +5,6 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 export const routes: Routes = [
   { path: '', component: ProductListComponent },
   { path: 'add', component: ProductFormComponent },
+  { path: 'edit/:id', component: ProductFormComponent },
   { path: '**', redirectTo: '' }
 ];
