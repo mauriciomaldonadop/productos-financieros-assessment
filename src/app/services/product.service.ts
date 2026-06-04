@@ -30,4 +30,7 @@ export class ProductService {
     return this.http.put<ApiResponse<FinancialProduct>>(`${this.apiUrl}/${id}`, product)
       .pipe(map(response => response.data));
   }
+  deleteProduct(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

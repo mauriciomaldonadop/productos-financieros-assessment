@@ -38,7 +38,7 @@
 
                 <div class="dropdown-menu" *ngIf="activeDropdown() === product.id">
                   <button class="dropdown-item" [routerLink]="['/edit', product.id]">Editar</button>
-                  <button class="dropdown-item">Eliminar</button>
+                  <button class="dropdown-item" (click)="openDeleteModal(product)">Eliminar</button>
                 </div>
               </div>
             </td>
@@ -65,6 +65,17 @@
         <option [value]="10">10</option>
         <option [value]="20">20</option>
       </select>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" *ngIf="showModal()">
+  <div class="modal-content">
+    <p class="modal-text">
+      ¿Estas seguro de eliminar el producto {{ productToDelete()?.name }}?
+    </p>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeModal()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmDelete()">Confirmar</button>
     </div>
   </div>
 </div>

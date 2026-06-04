@@ -19,6 +19,8 @@ export class ProductListComponent {
   itemsPerPage = signal<number>(5);
   currentPage = signal<number>(1);
   activeDropdown = signal<string | null>(null);
+  showModal = signal<boolean>(false);
+  productToDelete = signal<FinancialProduct | null>(null);
 
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
@@ -76,5 +78,33 @@ export class ProductListComponent {
 
   toggleDropdown(id: string): void {
     this.activeDropdown.update(currentId => currentId === id ? null : id);
+  }
+
+  openDeleteModal(product: FinancialProduct): void {
+    this.productToDelete.set(product);
+    this.showModal.set(true);
+    this.activeDropdown.set(null);
+  }
+
+  confirmDelete(): void {
+    const product = this.productToDelete();
+    if (product) {
+      this.productService.deleteProduct(product.id).subscribe({
+        next: () => {
+          this.closeModal();
+          this.loadProducts();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Hubo un error al eliminar el producto.');
+          this.closeModal();
+        }
+      });
+    }
+  }
+
+  closeModal(): void {
+    this.showModal.set(false);
+    this.productToDelete.set(null);
   }
 }
