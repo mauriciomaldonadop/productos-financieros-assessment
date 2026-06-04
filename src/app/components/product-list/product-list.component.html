@@ -5,6 +5,7 @@
       placeholder="Search..."
       class="search-input"
       [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchChange($event)"
     />
     <button class="btn-primary" [routerLink]="['/add']">Agregar</button>
   </div>
@@ -45,7 +46,14 @@
 
     <div class="table-footer">
       <span class="results-count">{{ filteredProducts().length }} Resultados</span>
-      <select class="limit-select" [(ngModel)]="itemsPerPage">
+
+      <div class="pagination-controls">
+        <button class="btn-page" (click)="prevPage()" [disabled]="currentPage() === 1">Anterior</button>
+        <span class="page-info">Página {{ currentPage() }} de {{ totalPages() || 1 }}</span>
+        <button class="btn-page" (click)="nextPage()" [disabled]="currentPage() === totalPages() || totalPages() === 0">Siguiente</button>
+      </div>
+
+      <select class="limit-select" [ngModel]="itemsPerPage()" (ngModelChange)="onLimitChange($event)">
         <option [value]="5">5</option>
         <option [value]="10">10</option>
         <option [value]="20">20</option>

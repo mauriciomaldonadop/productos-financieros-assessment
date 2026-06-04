@@ -17,6 +17,7 @@ export class ProductListComponent {
   products = signal<FinancialProduct[]>([]);
   searchTerm = signal<string>('');
   itemsPerPage = signal<number>(5);
+  currentPage = signal<number>(1);
 
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
@@ -28,8 +29,15 @@ export class ProductListComponent {
     );
   });
 
+  totalPages = computed(() => {
+    const total = this.filteredProducts().length;
+    return Math.ceil(total / this.itemsPerPage());
+  });
+
   paginatedProducts = computed(() => {
-    return this.filteredProducts().slice(0, this.itemsPerPage());
+    const start = (this.currentPage() - 1) * this.itemsPerPage();
+    const end = start + this.itemsPerPage();
+    return this.filteredProducts().slice(start, end);
   });
 
   ngOnInit(): void {
@@ -41,5 +49,27 @@ export class ProductListComponent {
       next: (data) => this.products.set(data),
       error: (err) => console.error('Error fetching products', err)
     });
+  }
+
+  onSearchChange(term: string): void {
+    this.searchTerm.set(term);
+    this.currentPage.set(1);
+  }
+
+  onLimitChange(limit: number): void {
+    this.itemsPerPage.set(Number(limit));
+    this.currentPage.set(1);
+  }
+
+  prevPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update(p => p - 1);
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update(p => p + 1);
+    }
   }
 }
