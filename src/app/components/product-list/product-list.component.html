@@ -33,7 +33,14 @@
             <td>{{ product.date_release | date:'dd/MM/yyyy' }}</td>
             <td>{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
             <td class="action-cell">
-              <button class="btn-icon">⋮</button>
+              <div class="dropdown-container">
+                <button class="btn-icon" (click)="toggleDropdown(product.id)">⋮</button>
+
+                <div class="dropdown-menu" *ngIf="activeDropdown() === product.id">
+                  <button class="dropdown-item" [routerLink]="['/edit', product.id]">Editar</button>
+                  <button class="dropdown-item">Eliminar</button>
+                </div>
+              </div>
             </td>
           </tr>
         } @empty {

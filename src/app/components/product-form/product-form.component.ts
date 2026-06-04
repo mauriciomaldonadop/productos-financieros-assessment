@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -10,7 +10,7 @@ import {
   Validators
 } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map, Observable, of } from 'rxjs';
 
 @Component({
@@ -24,12 +24,16 @@ export class ProductFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private productService = inject(ProductService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   productForm!: FormGroup;
+  isEditMode = signal(false);
+  productIdToEdit = signal<string | null>(null);
 
   ngOnInit(): void {
     this.initForm();
     this.setupDateListeners();
+    this.checkEditMode();
   }
   initForm(): void {
     this.productForm = this.fb.group({
@@ -68,7 +72,7 @@ export class ProductFormComponent implements OnInit {
 
   idExistsValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!control.value) return of(null);
+      if (this.isEditMode() || !control.value) return of(null);
       return this.productService.verifyIdExists(control.value).pipe(
         map(exists => (exists ? { idExists: true } : null)),
         catchError(() => of(null))
@@ -83,18 +87,57 @@ export class ProductFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.productForm.valid) {
-      const newProduct = this.productForm.getRawValue();
-      this.productService.createProduct(newProduct).subscribe({
-        next: () => this.router.navigate(['/']),
-        error: (err) => alert('Error al crear el producto')
-      });
+      const productData = this.productForm.getRawValue();
+
+      if (this.isEditMode()) {
+        this.productService.updateProduct(this.productIdToEdit()!, productData).subscribe({
+          next: () => this.router.navigate(['/']),
+          error: () => alert('Error al actualizar el producto')
+        });
+      } else {
+        this.productService.createProduct(productData).subscribe({
+          next: () => this.router.navigate(['/']),
+          error: () => alert('Error al crear el producto')
+        });
+      }
     } else {
       this.productForm.markAllAsTouched();
     }
   }
 
   onReset(): void {
-    this.productForm.reset();
+    if (this.isEditMode()) {
+      const currentId = this.productForm.getRawValue().id;
+      this.productForm.reset({ id: currentId });
+    } else {
+      this.productForm.reset();
+    }
+  }
+
+  checkEditMode(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode.set(true);
+      this.productIdToEdit.set(id);
+
+      this.productForm.get('id')?.disable();
+
+      this.productService.getProductById(id).subscribe({
+        next: (product) => {
+          const formattedProduct = {
+            ...product,
+            date_release: product.date_release ? product.date_release.split('T')[0] : '',
+            date_revision: product.date_revision ? product.date_revision.split('T')[0] : ''
+          };
+          this.productForm.patchValue(formattedProduct);
+        },
+        error: (err) => {
+          console.error('Error al obtener el producto', err);
+          alert('No se pudo cargar la información del producto.');
+          this.router.navigate(['/']);
+        }
+      });
+    }
   }
 }
 
