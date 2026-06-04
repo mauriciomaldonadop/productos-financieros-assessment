@@ -1,6 +1,11 @@
 <div class="container">
   <div class="header-actions">
-    <input type="text" placeholder="Search..." class="search-input" disabled />
+    <input
+      type="text"
+      placeholder="Search..."
+      class="search-input"
+      [(ngModel)]="searchTerm"
+    />
     <button class="btn-primary" [routerLink]="['/add']">Agregar</button>
   </div>
 
@@ -17,7 +22,7 @@
       </tr>
       </thead>
       <tbody>
-        @for (product of products(); track product.id) {
+        @for (product of paginatedProducts(); track product.id) {
           <tr>
             <td>
               <img [src]="product.logo" alt="Logo" class="product-logo">
@@ -39,9 +44,11 @@
     </table>
 
     <div class="table-footer">
-      <span class="results-count">{{ products().length }} Resultados</span>
-      <select class="limit-select" disabled>
-        <option value="5">5</option>
+      <span class="results-count">{{ filteredProducts().length }} Resultados</span>
+      <select class="limit-select" [(ngModel)]="itemsPerPage">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
       </select>
     </div>
   </div>
