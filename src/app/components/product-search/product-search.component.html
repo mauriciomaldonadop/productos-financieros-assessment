@@ -1,0 +1,10 @@
+<div class="header-actions">
+  <input
+    type="text"
+    placeholder="Search..."
+    class="search-input"
+    [ngModel]="searchTerm"
+    (ngModelChange)="onSearchChange($event)"
+  />
+  <button class="btn-primary" [routerLink]="['/add']">Agregar</button>
+</div>

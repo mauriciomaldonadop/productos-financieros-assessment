@@ -1,71 +1,22 @@
 <div class="container">
-  <div class="header-actions">
-    <input
-      type="text"
-      placeholder="Search..."
-      class="search-input"
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="onSearchChange($event)"
-    />
-    <button class="btn-primary" [routerLink]="['/add']">Agregar</button>
-  </div>
-
+  <app-product-search
+    [searchTerm]="searchTerm()"
+    (searchTermChange)="onSearchChange($event)">
+  </app-product-search>
   <div class="table-card">
-    <table class="data-table">
-      <thead>
-      <tr>
-        <th>Logo</th>
-        <th>Nombre del producto</th>
-        <th>Descripción <span class="info-icon">ℹ</span></th>
-        <th>Fecha de liberación <span class="info-icon">ℹ</span></th>
-        <th>Fecha de reestructuración <span class="info-icon">ℹ</span></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-        @for (product of paginatedProducts(); track product.id) {
-          <tr>
-            <td>
-              <img [src]="product.logo" alt="Logo" class="product-logo">
-            </td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.description }}</td>
-            <td>{{ product.date_release | date:'dd/MM/yyyy' }}</td>
-            <td>{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
-            <td class="action-cell">
-              <div class="dropdown-container">
-                <button class="btn-icon" (click)="toggleDropdown(product.id)">⋮</button>
+    <app-product-table
+      [products]="paginatedProducts()"
+      (requestDelete)="openDeleteModal($event)">
+    </app-product-table>
 
-                <div class="dropdown-menu" *ngIf="activeDropdown() === product.id">
-                  <button class="dropdown-item" [routerLink]="['/edit', product.id]">Editar</button>
-                  <button class="dropdown-item" (click)="openDeleteModal(product)">Eliminar</button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        } @empty {
-          <tr>
-            <td colspan="6" class="empty-state">No hay productos financieros registrados.</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-
-    <div class="table-footer">
-      <span class="results-count">{{ filteredProducts().length }} Resultados</span>
-
-      <div class="pagination-controls">
-        <button class="btn-page" (click)="prevPage()" [disabled]="currentPage() === 1">Anterior</button>
-        <span class="page-info">Página {{ currentPage() }} de {{ totalPages() || 1 }}</span>
-        <button class="btn-page" (click)="nextPage()" [disabled]="currentPage() === totalPages() || totalPages() === 0">Siguiente</button>
-      </div>
-
-      <select class="limit-select" [ngModel]="itemsPerPage()" (ngModelChange)="onLimitChange($event)">
-        <option [value]="5">5</option>
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-      </select>
-    </div>
+    <app-product-pagination
+      [totalResults]="filteredProducts().length"
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      [itemsPerPage]="itemsPerPage()"
+      (pageChange)="onPageChange($event)"
+      (limitChange)="onLimitChange($event)">
+    </app-product-pagination>
   </div>
 </div>
 <div class="modal-overlay" *ngIf="showModal()">
